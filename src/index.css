@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.slide1{
+    background-image:url('https://i.ibb.co/Syc30wL/roman-synkevych-5w-J2-Gi-YSif-A-unsplash.jpg');  
+}
+.slide2{
+    background-image: url('https://i.ibb.co/NTzKwhj/dakota-corbin-xh4m-G4cq-HGg-unsplash.jpg');  
+}
+.slide3{
+    background-image: url('https://i.ibb.co/Rp1BfZK/larm-rmah-AEa-TUnvneik-unsplash.jpg');   
+}
+.slide4{
+    background-image: url('https://i.ibb.co/McGWp0m/tim-marshall-c-Atz-HUz7-Z8g-unsplash.jpg') ;   
+}
+.slide5{
+    background-image: url('https://i.ibb.co/2qdh3P9/ocg-saving-the-ocean-cyx-RGU7ke-Tw-unsplash.jpg') ;   
+}
+.slide6{
+    background-image: url('https://i.ibb.co/JRjY4Yb/pexels-rdne-6646879.jpg') ;   
+}
+.slide7{
+    background-image: url('https://i.ibb.co/NLZcwZx/pexels-ron-lach-9034090.jpg') ;   
+}
+.slide8{
+    background-image: url('https://i.ibb.co/0shhz6t/pexels-mikhail-nilov-8542572.jpg') ;   
+}
+.slide9{
+    background-image: url('https://i.ibb.co/hHvc3NB/pexels-ron-lach-9543738.jpg') ;   
+}
+
+.slider{
+    width: 100%;
+    height: 90vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding:50px 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
