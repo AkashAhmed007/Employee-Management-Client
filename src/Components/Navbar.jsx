@@ -42,15 +42,15 @@ const Navbar = () => {
           People-HR
         </Link>
       </div>
-      <div className="navbar-center hidden lg:flex ml-5">
-        <ul className="menu menu-horizontal px-2">
-          <li className="bg-gray-400 border rounded-lg">
+      <div className="navbar-center hidden lg:flex gap-5 ml-5">
+        <ul className="menu menu-horizontal px-5">
+          <li className="border rounded-lg mr-5">
             <Link to="/">Home</Link>
           </li>
-          <li>
+          <li className="border rounded-lg">
             <Link to="/services">Services</Link>
           </li>
-          <li>
+          <li className="border rounded-lg ml-5">
             <Link to="/about-us">About Us</Link>
           </li>
         </ul>

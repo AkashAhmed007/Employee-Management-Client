@@ -18,6 +18,10 @@ import Contact from './Pages/Contact';
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import WorkSheet from './Dashboard/WorkSheet';
+import PaymentHistory from './Dashboard/PaymentHistory';
+import EmployeeList from './Dashboard/EmployeeList';
+import Progress from './Dashboard/Progress';
+import AllEmployee from './Dashboard/AllEmployee';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -58,7 +62,24 @@ const router = createBrowserRouter([
       {
         path:'worksheet',
         element: <WorkSheet></WorkSheet>
-      }
+      },
+      {
+        path:'payment-history',
+        element: <PaymentHistory></PaymentHistory>
+      },
+      {
+        path:'employee-list',
+        element: <EmployeeList></EmployeeList>
+      },
+      {
+        path:'progress',
+        element: <Progress></Progress>
+      },
+      {
+        path:'all-employee',
+        element: <AllEmployee></AllEmployee>
+      },
+
     ]
   }
 ]);

@@ -32,8 +32,9 @@ const Register = () => {
   useEffect(() => {
     if (user) navigate(location?.state);
   },[]);
+
   const onSubmit = (data) => {
-    const { name, email, password, image, role } = data;
+    const { name, email, password, image, role,salary,account,designation } = data;
     if (password < 6) {
       setRegisterError("Password should be at least 6 characters or longer");
       return;
@@ -52,7 +53,7 @@ const Register = () => {
 
     createUser(email, password, name, image,role)
       .then(() => {
-        console.log(name, email, password, image, role )
+        console.log(name, email, password, image, role ,salary,account,designation)
         Swal.fire({
           title: "You have register successfully!",
           text: "Do you want to continue",
@@ -88,6 +89,50 @@ const Register = () => {
             {errors.username && (
               <span className="text-red-500">This field is required</span>
             )}
+            <label htmlFor="account" className="block dark:text-gray-600">
+              Bank Account No
+            </label>
+            <input
+              type="text"
+              name="account"
+              id="account"
+              placeholder="Account Number"
+              className="w-full px-4 py-3 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600"
+              {...register("account", { required: true })}
+            />
+            {errors.username && (
+              <span className="text-red-500">This field is required</span>
+            )}
+            <label htmlFor="salary" className="block dark:text-gray-600">
+              Monthly Salary
+            </label>
+            <input
+              type="salary"
+              name="salary"
+              id="salary"
+              placeholder="Monthly Salary"
+              className="w-full px-4 py-3 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600"
+              {...register("salary", { required: true })}
+            />
+            {errors.username && (
+              <span className="text-red-500">This field is required</span>
+            )}
+            <label htmlFor="designation" className="block dark:text-gray-600">
+            Designation
+            </label>
+            <input
+              type="designation"
+              name="designation"
+              id="designation"
+              placeholder="Designation"
+              className="w-full px-4 py-3 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600"
+              {...register("designation", { required: true })}
+            />
+            {errors.username && (
+              <span className="text-red-500">This field is required</span>
+            )}
+            
+
 
             <label htmlFor="role" className="block">
               Role
@@ -137,6 +182,7 @@ const Register = () => {
                   type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
+                  autoComplete="off"
                   placeholder="Password"
                   className="w-full px-6 py-3 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600"
                 />
