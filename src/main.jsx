@@ -13,7 +13,11 @@ import About from './Pages/About';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import FirebaseProvider from './Firebase/FirebaseProvider';
-
+import Dashboard from './Dashboard/Dashboard';
+import Contact from './Pages/Contact';
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import WorkSheet from './Dashboard/WorkSheet';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -39,12 +43,28 @@ const router = createBrowserRouter([
       {
         path:'/register',
         element:<Register></Register>
+      },
+      
+      {
+        path:'/contact',
+        element:<Contact></Contact>
       }
-    ],
+    ]
+  },
+  {
+    path:'dashboard',
+    element:<Dashboard></Dashboard>,
+    children: [
+      {
+        path:'worksheet',
+        element: <WorkSheet></WorkSheet>
+      }
+    ]
   }
 ]);
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
      <FirebaseProvider><RouterProvider router={router}></RouterProvider></FirebaseProvider>
+     <ToastContainer></ToastContainer>
   </React.StrictMode>
 )

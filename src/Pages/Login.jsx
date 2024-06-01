@@ -3,11 +3,12 @@ import { useContext,useEffect,useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import Swal from "sweetalert2";
 import { AuthContext } from "../Firebase/FirebaseProvider";
 import { Helmet } from "react-helmet";
+import { toast } from 'react-toastify';
+
 const Login = () => {
-const { user, signInUser, googleLogin} = useContext(AuthContext);
+  const { user, signInUser, googleLogin} = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
@@ -16,11 +17,8 @@ const { user, signInUser, googleLogin} = useContext(AuthContext);
     socialProvider()
     .then((result) => {
       if (result.user) {
-        Swal.fire({
-          title: "You have logged in successfully!",
-          text: "Do you want to continue",
-          icon: "success",
-          confirmButtonText: "Ok",
+        toast.success("You have logged in succesfully!", {
+          position: "top-right"
         });
       }
       navigate(location?.state || "/",{replace:true});
@@ -34,6 +32,7 @@ const { user, signInUser, googleLogin} = useContext(AuthContext);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -42,19 +41,17 @@ const onSubmit = (data) => {
     signInUser(email, password)
       .then((result) => {
         if (result.user) {
-          Swal.fire({
-            title: "You have logged in successfully!",
-            text: "Do you want to continue",
-            icon: "success",
-            confirmButtonText: "Ok",
-          });
+          toast.success("You have logged in succesfully!", {
+            position: "top-right"
+          })
           navigate(location?.state || "/",{replace:true});
-          
         }
       })
       .catch((error) => {
-        setLoginError(error.message);
+        setLoginError(toast.error(`You credentials is not corrent ${error.message}`));
+        setLoginError('')
       });
+      reset()
   };
   return (
     <div className="min-h-screen my-5">
@@ -151,6 +148,7 @@ const onSubmit = (data) => {
                             type={showPassword ? "text" : "password"}
                             name="password"
                             id="password"
+                            autoComplete="off"
                             placeholder="Password"
                             className="w-full px-4 py-3 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600"
                           />

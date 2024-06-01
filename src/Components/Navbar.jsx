@@ -1,5 +1,8 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../Firebase/FirebaseProvider";
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
   return (
     <div className="navbar w-full">
       <div className="navbar-start">
@@ -52,33 +55,55 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      <div className="navbar-end" title="title">
-        <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-square">
-            <div className="w-10 rounded-full">
-              <img
-                referrerPolicy="no-referrer"
-                alt="Tailwind CSS Navbar component"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa2boNo2OYa6CLv00F8NEYjNAK9Ib6UTH74g&s"
-              />
+      <div className="navbar-end" title={user?.displayName}>
+        {user ? (
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <img
+                  referrerPolicy="no-referrer"
+                  alt="Tailwind CSS Navbar component"
+                  src={
+                    user?.photoURL ||
+                    "https://cdn-icons-png.flaticon.com/512/9131/9131529.png"
+                  }
+                />
+              </div>
             </div>
+            <ul
+              tabIndex={0}
+              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-black text-white rounded-box w-52"
+            >
+              <li>
+                <button className="justify-between">
+                  {user?.displayName || user?.email}
+                </button>
+              </li>
+              <li>
+                <Link to='/dashboard' className="justify-between">
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link to='/contact' className="justify-between">
+                  Contact-Us
+                </Link>
+              </li>
+              <li>
+                <button onClick={logOut}>Logout</button>
+              </li>
+            </ul>
           </div>
-          <ul
-            tabIndex={0}
-            className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-black text-white rounded-box w-52"
-          >
-            <li>
-              <button>Dashboard</button>
-            </li>
-            <li>
-              <button>Logout</button>
-            </li>
-          </ul>
-        </div>
-        <Link to="/login" className="text-xl mr-5">
-          Login
-        </Link>
-      </div>  
+        ) : (
+          <Link to="/login" className="font-bold text-xl">
+            Login
+          </Link>
+        )}
+      </div>
     </div>
   );
 };
