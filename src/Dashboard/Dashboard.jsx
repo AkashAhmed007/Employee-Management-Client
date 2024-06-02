@@ -5,8 +5,10 @@ const Dashboard = () => {
         <>
         <div className="flex">
             <div className="w-64 h-screen bg-indigo-400">
-                <ul className="menu flex flex-col gap-5 text-white text-xl font-bold">
-                
+                <ul className="menu flex flex-col gap-5 text-white text-base font-bold">
+                    <li>
+                      <NavLink to='/'>Home</NavLink>
+                    </li>
                     <li>
                       <NavLink to='/dashboard/worksheet'>Work-Sheet</NavLink>
                     </li>
@@ -21,9 +23,6 @@ const Dashboard = () => {
                     </li>
                     <li>
                       <NavLink to='/dashboard/all-employee'>All-Employee</NavLink>
-                    </li>
-                    <li>
-                      <NavLink to='/'>Home</NavLink>
                     </li>
                     <li>
                       <NavLink to='/contact'>Contact-Us</NavLink>

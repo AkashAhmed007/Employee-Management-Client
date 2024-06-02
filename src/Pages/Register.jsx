@@ -5,12 +5,12 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-import axios from 'axios'
+import axios from "axios";
 const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-const imageHostingAPI = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`
+const imageHostingAPI = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
 
 const Register = () => {
-  const {user,createUser,googleLogin } = useContext(AuthContext);
+  const { user, createUser, googleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
@@ -19,27 +19,45 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm();
+
   const handleSocialLogin = (socialProvider) => {
-    socialProvider()
-    .then((result) => {
+    socialProvider().then((result) => {
       if (result.user) {
-        toast.success("You have logged in succesfully!", {
-          position: "top-right"
-        });
+        const user2 = {
+          username: user.displayName,
+          email: user.email,
+          image: user.photoURL,
+          role: "Employee",
+        };
+        axios.post("http://localhost:8000/user", user2)
+        .then(()=>{
+          toast.success("You have logged in succesfully!", {
+            position: "top-right",
+          });
+        })
       }
-      navigate(location?.state || "/",{replace:true});
+      navigate(location?.state || "/", { replace: true });
     });
   };
-  
+
   useEffect(() => {
     if (user) navigate(location?.state);
-  },[]);
+  }, []);
 
-  const onSubmit =(data) => {
-   const {email,password,image} = data
-   const imageFile = {image: data.image[0]}
+  const onSubmit = (data) => {
+    const {
+      username,
+      email,
+      password,
+      image,
+      account,
+      role,
+      salary,
+      designation,
+    } = data;
+    const imageFile = { image: data.image[0] };
     if (password < 6) {
       setRegisterError("Password should be at least 6 characters or longer");
       return;
@@ -58,28 +76,43 @@ const Register = () => {
 
     createUser(email, password, image)
       .then(() => {
-        axios.post(imageHostingAPI, imageFile, {
-          headers:{
-            'content-type': 'multipart/form-data',
-          }     
-        })
-        .then(res=>{
-          console.log(res.data)
-        })
-        
-        Swal.fire({
-          title: "You have register successfully!",
-          text: "Do you want to continue",
-          icon: "success",
-          confirmButtonText: "Ok",
-        });
-        navigate(location?.state || "/", { replace: true });
+        axios
+          .post(imageHostingAPI, imageFile, {
+            headers: {
+              "content-type": "multipart/form-data",
+            },
+          })
+          .then((res) => {
+            if (res.data.success) {
+              const user = {
+                username,
+                email,
+                password,
+                image: res.data.data.display_url,
+                account: parseFloat(account),
+                role,
+                salary: parseFloat(salary),
+                designation,
+              };
+              axios.post("http://localhost:8000/user", user).then(() => {
+                Swal.fire({
+                  title: "You have register successfully!",
+                  text: "Do you want to continue",
+                  icon: "success",
+                  confirmButtonText: "Ok",
+                });
+                navigate(location?.state || "/", { replace: true });
+              });
+            }
+          });
       })
       .catch((error) => {
-        setRegisterError(toast.error(`You credentials is not correct ${error.message}`));
-        setRegisterError('')
+        setRegisterError(
+          toast.error(`You credentials is not correct ${error.message}`)
+        );
+        setRegisterError("");
       });
-      reset()
+    reset();
   };
   return (
     <div className="min-h-screen my-10">
@@ -131,7 +164,7 @@ const Register = () => {
               <span className="text-red-500">This field is required</span>
             )}
             <label htmlFor="designation" className="block dark:text-gray-600">
-            Designation
+              Designation
             </label>
             <input
               type="text"
@@ -144,11 +177,14 @@ const Register = () => {
             {errors.username && (
               <span className="text-red-500">This field is required</span>
             )}
-            
+
             <label htmlFor="role" className="block">
               Role
             </label>
-            <select {...register("role")} className="select select-bordered w-full max-w-md mt-2 mb-2">
+            <select
+              {...register("role")}
+              className="select select-bordered w-full max-w-md mt-2 mb-2"
+            >
               <option disabled selected>
                 Select Role
               </option>
@@ -175,8 +211,11 @@ const Register = () => {
             <label htmlFor="image" className="block dark:text-gray-600">
               PhotoURL
             </label>
-            <input {...register("image", { required: true })}
-            type="file" className="file-input file-input-bordered file-input-md w-full max-w-md" />
+            <input
+              {...register("image", { required: true })}
+              type="file"
+              className="file-input file-input-bordered file-input-md w-full max-w-md"
+            />
 
             <div className="space-y-1 text-sm">
               <label htmlFor="password" className="block dark:text-gray-600">
@@ -217,7 +256,11 @@ const Register = () => {
           <div className="flex-1 h-px sm:w-16 dark:bg-gray-300"></div>
         </div>
         <div className="flex justify-center space-x-4">
-          <button onClick={() => handleSocialLogin(googleLogin)} aria-label="Log in with Google" className="p-3 rounded-sm">
+          <button
+            onClick={() => handleSocialLogin(googleLogin)}
+            aria-label="Log in with Google"
+            className="p-3 rounded-sm"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 32 32"
