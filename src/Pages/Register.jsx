@@ -5,6 +5,10 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import axios from 'axios'
+const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const imageHostingAPI = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`
+
 const Register = () => {
   const {user,createUser,googleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -33,8 +37,9 @@ const Register = () => {
     if (user) navigate(location?.state);
   },[]);
 
-  const onSubmit = (data) => {
-    const { name, email, password, image, role,salary,account,designation } = data;
+  const onSubmit =(data) => {
+   const {email,password,image} = data
+   const imageFile = {image: data.image[0]}
     if (password < 6) {
       setRegisterError("Password should be at least 6 characters or longer");
       return;
@@ -51,9 +56,17 @@ const Register = () => {
     }
     setRegisterError("");
 
-    createUser(email, password, name, image,role)
+    createUser(email, password, image)
       .then(() => {
-        console.log(name, email, password, image, role ,salary,account,designation)
+        axios.post(imageHostingAPI, imageFile, {
+          headers:{
+            'content-type': 'multipart/form-data',
+          }     
+        })
+        .then(res=>{
+          console.log(res.data)
+        })
+        
         Swal.fire({
           title: "You have register successfully!",
           text: "Do you want to continue",
@@ -63,7 +76,7 @@ const Register = () => {
         navigate(location?.state || "/", { replace: true });
       })
       .catch((error) => {
-        setRegisterError(toast.error(`You credentials is not corrent ${error.message}`));
+        setRegisterError(toast.error(`You credentials is not correct ${error.message}`));
         setRegisterError('')
       });
       reset()
@@ -107,7 +120,7 @@ const Register = () => {
               Monthly Salary
             </label>
             <input
-              type="salary"
+              type="text"
               name="salary"
               id="salary"
               placeholder="Monthly Salary"
@@ -121,7 +134,7 @@ const Register = () => {
             Designation
             </label>
             <input
-              type="designation"
+              type="text"
               name="designation"
               id="designation"
               placeholder="Designation"
@@ -132,8 +145,6 @@ const Register = () => {
               <span className="text-red-500">This field is required</span>
             )}
             
-
-
             <label htmlFor="role" className="block">
               Role
             </label>
@@ -164,14 +175,9 @@ const Register = () => {
             <label htmlFor="image" className="block dark:text-gray-600">
               PhotoURL
             </label>
-            <input
-              {...register("image")}
-              type="text"
-              name="image"
-              id="image"
-              placeholder="PhotURL"
-              className="w-full px-4 py-3  border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600"
-            />
+            <input {...register("image", { required: true })}
+            type="file" className="file-input file-input-bordered file-input-md w-full max-w-md" />
+
             <div className="space-y-1 text-sm">
               <label htmlFor="password" className="block dark:text-gray-600">
                 Password
