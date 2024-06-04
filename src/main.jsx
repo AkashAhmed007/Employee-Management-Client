@@ -15,13 +15,13 @@ import Register from './Pages/Register';
 import FirebaseProvider from './Firebase/FirebaseProvider';
 import Dashboard from './Dashboard/Dashboard';
 import Contact from './Pages/Contact';
-import { ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import WorkSheet from './Dashboard/WorkSheet';
 import PaymentHistory from './Dashboard/PaymentHistory';
 import EmployeeList from './Dashboard/EmployeeList';
 import Progress from './Dashboard/Progress';
 import AllEmployee from './Dashboard/AllEmployee';
+import {ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -61,7 +61,8 @@ const router = createBrowserRouter([
     children: [
       {
         path:'worksheet',
-        element: <WorkSheet></WorkSheet>
+        element: <WorkSheet></WorkSheet>,
+        loader:()=>fetch('http://localhost:8000/worksheet')
       },
       {
         path:'payment-history',

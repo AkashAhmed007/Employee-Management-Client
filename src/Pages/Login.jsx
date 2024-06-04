@@ -5,20 +5,25 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthContext } from "../Firebase/FirebaseProvider";
 import { Helmet } from "react-helmet";
-import { toast } from 'react-toastify';
-
+import { toast,ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from "sweetalert2";
 const Login = () => {
   const { user, signInUser, googleLogin} = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState("");
+
   const handleSocialLogin = (socialProvider) => {
     socialProvider()
     .then((result) => {
       if (result.user) {
-        toast.success("You have logged in succesfully!", {
-          position: "top-right"
+        Swal.fire({
+          title: "You have logged in successfully!",
+          text: "Do you want to continue",
+          icon: "success",
+          confirmButtonText: "Ok",
         });
       }
       navigate(location?.state || "/",{replace:true});
@@ -39,13 +44,16 @@ const Login = () => {
 const onSubmit = (data) => {
     const { email, password } = data;
     signInUser(email, password)
-      .then((result) => {
-        if (result.user) {
-          toast.success("You have logged in succesfully!", {
-            position: "top-right"
-          })
-          navigate(location?.state || "/",{replace:true});
+      .then((res) => {
+        if (res.user) {
+          Swal.fire({
+            title: "You have logged in successfully!",
+            text: "Do you want to continue",
+            icon: "success",
+            confirmButtonText: "Ok",
+          });
         }
+        navigate(location?.state || "/",{replace:true});
       })
       .catch((error) => {
         setLoginError(toast.error(`You credentials is not corrent ${error.message}`));
@@ -53,8 +61,10 @@ const onSubmit = (data) => {
       });
       reset()
   };
+
   return (
     <div className="min-h-screen my-5">
+    <ToastContainer></ToastContainer>
       <Helmet>
         <title>People-HR || Login</title>
       </Helmet>

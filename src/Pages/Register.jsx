@@ -3,9 +3,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Firebase/FirebaseProvider";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import Swal from "sweetalert2";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import Swal from "sweetalert2";
 const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const imageHostingAPI = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
 
@@ -23,22 +23,25 @@ const Register = () => {
   } = useForm();
 
   const handleSocialLogin = (socialProvider) => {
-    socialProvider().then((result) => {
-      if (result.user) {
-        const user2 = {
-          username: user.displayName,
-          email: user.email,
-          image: user.photoURL,
-          role: "Employee",
-        };
-        axios.post("http://localhost:8000/user", user2)
-        .then(()=>{
-          toast.success("You have logged in succesfully!", {
-            position: "top-right",
-          });
-        })
+    socialProvider()
+    .then((res) => {
+      if (res.user) {
+        Swal.fire({
+          title: "You have logged in successfully!",
+          text: "Do you want to continue",
+          icon: "success",
+          confirmButtonText: "Ok",
+        });
       }
       navigate(location?.state || "/", { replace: true });
+      const user2 = {
+      username: res._tokenResponse.displayName,
+      email: res._tokenResponse.email,
+      image: res._tokenResponse.photoUrl,
+      role: "Employee",
+      isVerified : false
+    }
+    axios.post("http://localhost:8000/socialloginuser", user2)
     });
   };
 
@@ -76,13 +79,20 @@ const Register = () => {
 
     createUser(email, password, image)
       .then(() => {
-        axios
-          .post(imageHostingAPI, imageFile, {
+        Swal.fire({
+          title: 'You have register successfully!',
+          text: 'Do you want to continue',
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        })
+        navigate(location?.state || "/", { replace: true });
+
+        axios.post(imageHostingAPI, imageFile, {
             headers: {
               "content-type": "multipart/form-data",
             },
           })
-          .then((res) => {
+      .then((res) => {
             if (res.data.success) {
               const user = {
                 username,
@@ -93,16 +103,9 @@ const Register = () => {
                 role,
                 salary: parseFloat(salary),
                 designation,
+                isVerified: false
               };
-              axios.post("http://localhost:8000/user", user).then(() => {
-                Swal.fire({
-                  title: "You have register successfully!",
-                  text: "Do you want to continue",
-                  icon: "success",
-                  confirmButtonText: "Ok",
-                });
-                navigate(location?.state || "/", { replace: true });
-              });
+              axios.post("http://localhost:8000/user", user)
             }
           });
       })
@@ -116,6 +119,7 @@ const Register = () => {
   };
   return (
     <div className="min-h-screen my-10">
+      <ToastContainer></ToastContainer>
       <div className="w-full mx-auto max-w-md p-8 space-y-3 border rounded-xl dark:bg-gray-50 dark:text-gray-800">
         <h1 className="text-3xl font-bold text-center">Register Now!</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
