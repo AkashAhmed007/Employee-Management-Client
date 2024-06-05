@@ -4,7 +4,7 @@ const Dashboard = () => {
     return (
         <>
         <div className="flex">
-            <div className="w-64 h-screen bg-indigo-400">
+            <div className="w-60 h-screen bg-indigo-400">
                 <ul className="menu flex flex-col gap-5 text-white text-base font-bold">
                     <li>
                       <NavLink to='/'>Home</NavLink>

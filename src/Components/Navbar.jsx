@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Firebase/FirebaseProvider";
+import logo from '../assets/logo.png'
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   return (
@@ -38,8 +39,9 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <Link to="/" className="text-3xl font-bold">
-          People-HR
+        <img className="w-10 h-10 mr-2 rounded-full" src={logo}></img>
+        <Link to="/" className="text-4xl font-bold">
+          PEOPLE-HR
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex gap-5 ml-5">
