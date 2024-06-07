@@ -1,5 +1,15 @@
+import { useContext, useState } from "react";
+import { AuthContext } from "../Firebase/FirebaseProvider";
+import axios from "axios";
 const PaymentHistory = () => {
-  return (
+const {user} = useContext(AuthContext)
+const [paidData,setPaidData] = useState([])
+axios.get(`http://localhost:8000/payment/${user?.email}`)
+.then(res=>{
+  setPaidData(res.data)
+})
+
+return (
     <div>
       <h1 className="text-center text-2xl font-bold bg-slate-300 py-5">
         This is Employee Directory-PaymentHistory
@@ -10,34 +20,25 @@ const PaymentHistory = () => {
             {/* head */}
             <thead>
               <tr>
-                <th></th>
+                <th>Serial</th>
                 <th>Month</th>
+                <th>Year</th>
                 <th>Amount</th>
                 <th>Transaction Id</th>
               </tr>
             </thead>
             <tbody>
-              {/* row 1 */}
-              <tr>
-                <th>1</th>
-                <td>Cy Ganderton</td>
-                <td>Quality Control Specialist</td>
-                <td>Blue</td>
+              {
+                paidData.map((pay,idx)=>(
+                <tr key={pay._id}>
+                <td>{idx + 1}</td>
+                <td>{pay.month}</td>
+                <td>{pay.year}</td>
+                <td>{pay.amount}</td>
+                <td>{pay._id}</td>
               </tr>
-              {/* row 2 */}
-              <tr>
-                <th>2</th>
-                <td>Hart Hagerty</td>
-                <td>Desktop Support Technician</td>
-                <td>Purple</td>
-              </tr>
-              {/* row 3 */}
-              <tr>
-                <th>3</th>
-                <td>Brice Swyre</td>
-                <td>Tax Accountant</td>
-                <td>Red</td>
-              </tr>
+                ))
+              }
             </tbody>
           </table>
         </div>

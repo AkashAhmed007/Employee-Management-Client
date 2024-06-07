@@ -69,7 +69,12 @@ const router = createBrowserRouter([
       },
       {
         path: "payment-history",
+        element: <PaymentHistory></PaymentHistory>
+      },
+      {
+        path: "payment/:email",
         element: <PaymentHistory></PaymentHistory>,
+        loader: ({params})=> fetch(`http://localhost:8000/payment/${params.email}`)
       },
       {
         path: "employee-list",

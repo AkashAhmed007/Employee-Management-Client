@@ -16,7 +16,6 @@ const EmployeeList = () => {
       setEmployees(res.data);
     });
   }, []);
-
   const handleToggle = async (id, currentStatus) => {
     const newStatus = !currentStatus;
     await axios
@@ -49,7 +48,8 @@ const handlePay = async ()=>{
     const data = {
       amount: seleectedEmployee.salary,
       month,
-      year
+      year,
+      email : seleectedEmployee.email
     }
 
   const res = await axios.post('http://localhost:8000/pay',{data})
