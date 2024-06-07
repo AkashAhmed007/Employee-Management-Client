@@ -4,6 +4,7 @@ import axios from "axios";
 const PaymentHistory = () => {
 const {user} = useContext(AuthContext)
 const [paidData,setPaidData] = useState([])
+
 axios.get(`http://localhost:8000/payment/${user?.email}`)
 .then(res=>{
   setPaidData(res.data)

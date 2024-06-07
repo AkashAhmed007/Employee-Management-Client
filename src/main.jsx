@@ -65,7 +65,11 @@ const router = createBrowserRouter([
       {
         path: "worksheet",
         element: <WorkSheet></WorkSheet>,
-        loader: () => fetch("http://localhost:8000/worksheet"),
+      },
+      {
+        path: "worksheet/:email",
+        element: <WorkSheet></WorkSheet>,
+        loader: ({params}) => fetch(`http://localhost:8000/worksheet/${params.email}`),
       },
       {
         path: "payment-history",

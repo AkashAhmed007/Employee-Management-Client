@@ -1,16 +1,22 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useLoaderData } from "react-router-dom";
 import { toast,ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from "../Firebase/FirebaseProvider";
 
 const WorkSheet = () => {
-  const workData = useLoaderData();
-  const [work, setWork] = useState(workData);
+  const {user} = useContext(AuthContext)
+  const [worksheetData,setWorkSheetData] = useState([])
   const [startDate, setStartDate] = useState(new Date());
   const date = startDate.toISOString().substr(0, 10);
+
+  axios.get(`http://localhost:8000/worksheet/${user?.email}`)
+  .then(res=>{
+    setWorkSheetData(res.data)
+  })
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     const form = e.target;
@@ -20,15 +26,15 @@ const WorkSheet = () => {
       task,
       date,
       workHour,
+      email:user?.email
     };
-    
-    try {
+ try {
       const res = await axios.post("http://localhost:8000/worksheet", UserWorkdata)
       if (res.data) {
         toast.success("Your record has saved successfully!", {
           position: "top-right",
         });
-        setWork([UserWorkdata,...work]);
+        setWorkSheetData([UserWorkdata,...worksheetData]);
       }
     } catch (error) {
       toast.error("Failed to add data", {
@@ -101,7 +107,7 @@ const WorkSheet = () => {
               </tr>
             </thead>
             <tbody>
-              {work.map((item, idx) => (
+              {worksheetData.map((item, idx) => (
                 <tr key={item._id}>
                   <td>{idx + 1}</td>
                   <td>{item.task}</td>
