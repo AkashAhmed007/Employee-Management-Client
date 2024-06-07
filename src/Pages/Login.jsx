@@ -8,6 +8,7 @@ import { Helmet } from "react-helmet";
 import { toast,ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from "sweetalert2";
+import axios from "axios";
 const Login = () => {
   const { user, signInUser, googleLogin} = useContext(AuthContext);
   const navigate = useNavigate();
@@ -16,9 +17,8 @@ const Login = () => {
   const [loginError, setLoginError] = useState("");
 
   const handleSocialLogin = (socialProvider) => {
-    socialProvider()
-    .then((result) => {
-      if (result.user) {
+    socialProvider().then((res) => {
+      if (res.user) {
         Swal.fire({
           title: "You have logged in successfully!",
           text: "Do you want to continue",
@@ -26,9 +26,18 @@ const Login = () => {
           confirmButtonText: "Ok",
         });
       }
-      navigate(location?.state || "/",{replace:true});
+      navigate(location?.state || "/", { replace: true });
+      const user2 = {
+        username: res._tokenResponse.displayName,
+        email: res._tokenResponse.email,
+        image: res._tokenResponse.photoUrl,
+        role: "Employee",
+        isVerified: false,
+      };
+      axios.post("http://localhost:8000/socialloginuser", user2);
     });
   };
+
   
   useEffect(() => {
     if (user) navigate(location?.state);

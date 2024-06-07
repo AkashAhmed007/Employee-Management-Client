@@ -23,8 +23,7 @@ const Register = () => {
   } = useForm();
 
   const handleSocialLogin = (socialProvider) => {
-    socialProvider()
-    .then((res) => {
+    socialProvider().then((res) => {
       if (res.user) {
         Swal.fire({
           title: "You have logged in successfully!",
@@ -35,13 +34,13 @@ const Register = () => {
       }
       navigate(location?.state || "/", { replace: true });
       const user2 = {
-      username: res._tokenResponse.displayName,
-      email: res._tokenResponse.email,
-      image: res._tokenResponse.photoUrl,
-      role: "Employee",
-      isVerified : false
-    }
-    axios.post("http://localhost:8000/socialloginuser", user2)
+        username: res._tokenResponse.displayName,
+        email: res._tokenResponse.email,
+        image: res._tokenResponse.photoUrl,
+        role: "Employee",
+        isVerified: false,
+      };
+      axios.post("http://localhost:8000/socialloginuser", user2);
     });
   };
 
@@ -74,25 +73,31 @@ const Register = () => {
         "Your Password Should have at least one Lowercase character"
       );
       return;
+    } else if (!/.*[^a-zA-Z0-9].*/.test(password)) {
+      setRegisterError(
+        "Your Password Should have at least one special character"
+      );
+      return;
     }
     setRegisterError("");
 
     createUser(email, password, image)
       .then(() => {
         Swal.fire({
-          title: 'You have register successfully!',
-          text: 'Do you want to continue',
-          icon: 'success',
-          confirmButtonText: 'Ok'
-        })
+          title: "You have register successfully!",
+          text: "Do you want to continue",
+          icon: "success",
+          confirmButtonText: "Ok",
+        });
         navigate(location?.state || "/", { replace: true });
 
-        axios.post(imageHostingAPI, imageFile, {
+        axios
+          .post(imageHostingAPI, imageFile, {
             headers: {
               "content-type": "multipart/form-data",
             },
           })
-      .then((res) => {
+          .then((res) => {
             if (res.data.success) {
               const user = {
                 username,
@@ -103,9 +108,9 @@ const Register = () => {
                 role,
                 salary: parseFloat(salary),
                 designation,
-                isVerified: false
+                isVerified: false,
               };
-              axios.post("http://localhost:8000/user", user)
+              axios.post("http://localhost:8000/user", user);
             }
           });
       })
@@ -122,6 +127,7 @@ const Register = () => {
       <ToastContainer></ToastContainer>
       <div className="w-full mx-auto max-w-md p-8 space-y-3 border rounded-xl dark:bg-gray-50 dark:text-gray-800">
         <h1 className="text-3xl font-bold text-center">Register Now!</h1>
+        <hr />
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {registerError && <p className="text-red-500">{registerError}</p>}
           <div className="space-y-1 text-sm">

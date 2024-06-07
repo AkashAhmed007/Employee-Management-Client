@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Firebase/FirebaseProvider";
-import logo from '../assets/logo.png'
+import logo from "../assets/logo.png";
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   return (
@@ -32,15 +32,15 @@ const Navbar = () => {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/services">Services</Link>
+              <Link to="/dashboard">Dashboard</Link>
             </li>
             <li>
-              <Link to="/about-us">About Us</Link>
+              <Link to="/contact">Contact</Link>
             </li>
           </ul>
         </div>
         <img className="w-10 h-10 mr-2 rounded-full" src={logo}></img>
-        <Link to="/" className="text-4xl font-bold">
+        <Link to="/" className="lg:text-4xl font-bold">
           PEOPLE-HR
         </Link>
       </div>
@@ -50,10 +50,10 @@ const Navbar = () => {
             <Link to="/">Home</Link>
           </li>
           <li className="border rounded-lg">
-            <Link to="/services">Services</Link>
+            <Link to="/dashboard">Dashboard</Link>
           </li>
           <li className="border rounded-lg ml-5">
-            <Link to="/about-us">About Us</Link>
+            <Link to="/contact">Contact</Link>
           </li>
         </ul>
       </div>
@@ -86,24 +86,25 @@ const Navbar = () => {
                 </button>
               </li>
               <li>
-                <Link to='/dashboard' className="justify-between">
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link to='/contact' className="justify-between">
-                  Contact-Us
-                </Link>
-              </li>
-              <li>
                 <button onClick={logOut}>Logout</button>
               </li>
             </ul>
           </div>
         ) : (
-          <Link to="/login" className="font-bold text-xl">
-            Login
-          </Link>
+          <div>
+            <Link
+              to="/login"
+              className="border p-2 rounded-lg mr-5"
+            >
+              Login
+            </Link>
+            <Link
+              to="/register"
+              className="border p-2 rounded-lg mr-5"
+            >
+              Register
+            </Link>
+          </div>
         )}
       </div>
     </div>

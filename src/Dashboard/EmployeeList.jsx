@@ -1,15 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { IoIosCheckboxOutline } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
+import { Link } from "react-router-dom";
+
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [seleectedEmployee,setSelectedEmployee] = useState(null)
-
   useEffect(() => {
     axios.get("http://localhost:8000/employees").then((res) => {
       setEmployees(res.data);
@@ -50,6 +51,7 @@ const handlePay = async ()=>{
       month,
       year
     }
+
   const res = await axios.post('http://localhost:8000/pay',{data})
   if(res.data.success){
     toast.success("Your payment has successful!", {
@@ -115,7 +117,7 @@ const handlePay = async ()=>{
                     </button>
                   </td>
                   <td>
-                    <button className="btn btn-sm btn-secondary">view</button>
+                    <Link to={`/employeelist/${employee?.email}`}className="btn btn-sm btn-secondary">view</Link>
                   </td>
                   <td>
                     <dialog id="my_modal_1" className="modal">
