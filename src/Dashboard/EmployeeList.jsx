@@ -66,8 +66,8 @@ const handlePay = async ()=>{
   return (
     <div>
       <ToastContainer></ToastContainer>
-      <h1 className="text-center text-2xl font-bold bg-slate-300 py-5">
-        This is Employee Directory-EmployeeList-{employees.length}
+      <h1 className="text-center text-xl font-bold bg-slate-300 py-3">
+        This is Employee Directory-EmployeeList
       </h1>
       <div>
         <div className="border rounded-md w-10/12 m-5">

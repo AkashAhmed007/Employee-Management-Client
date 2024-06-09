@@ -4,6 +4,7 @@ import auth from "../Firebase/firebaseConfig";
 import PropTypes from 'prop-types';
 const googleProvider = new GoogleAuthProvider()
 export const AuthContext = createContext(null);
+
 const FirebaseProvider = ({children}) => {
 const [user,setUser] = useState(null)
 const [loading,setLoading] = useState(true);
@@ -31,10 +32,10 @@ const logOut = ()=>{
 
 useEffect(()=>{
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setUser(user)
-            setLoading(false)
-      });
-      return ()=> unsubscribe()
+        setUser(user)
+        setLoading(false)
+  });
+  return ()=> unsubscribe()
 },[])
 
 

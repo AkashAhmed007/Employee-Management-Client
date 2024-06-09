@@ -1,10 +1,14 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-// import required modules
 import { Pagination, EffectCoverflow, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "../Components/banner.css";
 import "../Components/style.css";
+import slideimgone from '../assets/hr-1.jpg'
+import slideimgtwo from '../assets/hr-2.jpg'
+import slideimgthree from '../assets/hr-3.jpg'
+import slideimgfour from '../assets/hr-4.jpg'
+import slideimgfive from '../assets/hr-5.jpg'
 const Banner = () => {
   return (
     <div>
@@ -29,31 +33,19 @@ const Banner = () => {
         className="mySwiper"
       >
         <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+          <img src={slideimgone} />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+          <img src={slideimgtwo} />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+          <img src={slideimgthree}/>
         </SwiperSlide>
         <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+          <img src={slideimgfour} />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
+          <img src={slideimgfive}/>
         </SwiperSlide>
       </Swiper>
     </div>

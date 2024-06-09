@@ -12,14 +12,14 @@ axios.get(`http://localhost:8000/payment/${user?.email}`)
 
 return (
     <div>
-      <h1 className="text-center text-2xl font-bold bg-slate-300 py-5">
-        This is Employee Directory-PaymentHistory
+      <h1 className="text-center text-xl font-bold bg-slate-300 py-3">
+        This is Employee Payment-history
       </h1>
       <div>
         <div className="border rounded-md w-10/12 m-5">
           <table className="table">
             {/* head */}
-            <thead>
+            <thead className="text-black">
               <tr>
                 <th>Serial</th>
                 <th>Month</th>

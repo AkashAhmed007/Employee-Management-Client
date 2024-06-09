@@ -21,6 +21,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import EmployeeDetails from "./Pages/EmployeeDetails";
+import DashboardHome from "./Dashboard/DashboardHome";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -63,8 +64,13 @@ const router = createBrowserRouter([
     ),
     children: [
       {
+        index: true,
+        element:<DashboardHome></DashboardHome>
+
+      },
+      {
         path: "worksheet",
-        element: <WorkSheet></WorkSheet>,
+        element: <PrivateRoute allowedRoles={["Employee", "HR", "Admin"]}><WorkSheet></WorkSheet></PrivateRoute>,
       },
       {
         path: "worksheet/:email",
@@ -73,7 +79,7 @@ const router = createBrowserRouter([
       },
       {
         path: "payment-history",
-        element: <PaymentHistory></PaymentHistory>
+        element: <PrivateRoute allowedRoles={["Employee", "HR", "Admin"]}><PaymentHistory></PaymentHistory></PrivateRoute>
       },
       {
         path: "payment/:email",

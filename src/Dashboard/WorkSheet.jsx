@@ -46,7 +46,7 @@ const WorkSheet = () => {
   return (
     <div>
       <ToastContainer></ToastContainer>
-      <h1 className="text-center text-xl font-bold bg-slate-300 py-5">
+      <h1 className="text-center text-xl font-bold bg-slate-300 py-3">
         This is Employee Directory-WorkSheet
       </h1>
       <hr />
