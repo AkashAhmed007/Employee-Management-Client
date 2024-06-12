@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 
 const Progress = () => {
   const [employeeData, setEmployeeData] = useState([]);
@@ -17,6 +18,9 @@ const Progress = () => {
     <>
     {/* filtering Data */}
     <div className="text-black text-center border-b border-black p-4 flex justify-between">
+    <Helmet>
+        <title>People-HR || Dashboard-Progress</title>
+      </Helmet>
         <div>
         <label htmlFor="employee">Filter by Employee:</label>
         <select id="employee">

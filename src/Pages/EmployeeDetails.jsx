@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import { Link, useLoaderData } from "react-router-dom";
 import {
   BarChart,
@@ -40,6 +41,9 @@ const employeeDetails = useLoaderData();
 return (
     <>
       <div>
+      <Helmet>
+        <title>People-HR || Employee-Details</title>
+      </Helmet>
         <h1 className="text-center text-2xl font-bold bg-slate-300 py-5">
           Employee details
         </h1>

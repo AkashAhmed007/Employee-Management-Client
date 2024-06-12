@@ -9,6 +9,7 @@ import { GiProgression } from "react-icons/gi";
 import { FaUserTie } from "react-icons/fa";
 import { MdContactPhone } from "react-icons/md";
 import { TbLogout } from "react-icons/tb";
+import { Helmet } from "react-helmet";
 const Dashboard = () => {
 const { user, loading, logOut } = useContext(AuthContext);
   if (loading) {
@@ -29,6 +30,9 @@ const { user, loading, logOut } = useContext(AuthContext);
   return (
     <>
       <div className="flex">
+      <Helmet>
+        <title>People-HR || Dashboard</title>
+      </Helmet>
         <div className="lg:w-60 md:w-30 w-30 min-h-screen bg-black">
           <ul className="menu flex lg:flex-col lg:gap-5 gap-3 text-white text-base font-bold lg:p-5">
             <div>

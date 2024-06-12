@@ -1,8 +1,12 @@
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 
 const DashboardHome = () => {
   return (
     <div className="p-4">
+       <Helmet>
+        <title>People-HR || Dashboard-Home</title>
+      </Helmet>
       <h1 className="lg:text-2xl text-base font-bold text-center p-2">
         Welcome to the Dashboard
       </h1>

@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../Firebase/FirebaseProvider";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 const PaymentHistory = () => {
 const {user} = useContext(AuthContext)
 const [paidData,setPaidData] = useState([])
@@ -12,6 +13,9 @@ axios.get(`https://employee-management-server-five.vercel.app/payment/${user?.em
 
 return (
     <div>
+       <Helmet>
+        <title>People-HR || Dashboard-Payment</title>
+      </Helmet>
       <h1 className="text-center text-xl font-bold bg-slate-300 py-3">
         This is Employee Payment-history
       </h1>

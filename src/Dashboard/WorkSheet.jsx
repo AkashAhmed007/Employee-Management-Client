@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { toast,ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from "../Firebase/FirebaseProvider";
+import { Helmet } from "react-helmet";
 
 const WorkSheet = () => {
   const {user} = useContext(AuthContext)
@@ -46,6 +47,9 @@ const WorkSheet = () => {
   return (
     <div>
       <ToastContainer></ToastContainer>
+      <Helmet>
+        <title>People-HR || Dashboard-Worksheet</title>
+      </Helmet>
       <h1 className="text-center text-xl font-bold bg-slate-300 py-3">
         This is Employee Directory-WorkSheet
       </h1>

@@ -6,6 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const imageHostingAPI = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
 
@@ -126,6 +127,9 @@ const onSubmit = (data) => {
   return (
     <div className="min-h-screen my-10">
       <ToastContainer></ToastContainer>
+      <Helmet>
+        <title>People-HR || Register</title>
+      </Helmet>
       <div className="w-full mx-auto max-w-md p-8 space-y-3 border rounded-xl dark:bg-gray-50 dark:text-gray-800">
         <h1 className="text-3xl font-bold text-center">Register Now!</h1>
         <hr />

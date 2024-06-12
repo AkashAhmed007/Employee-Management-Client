@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { IoIosCheckboxOutline } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
@@ -66,6 +67,9 @@ const handlePay = async ()=>{
   return (
     <div>
       <ToastContainer></ToastContainer>
+      <Helmet>
+        <title>People-HR || Employee-List</title>
+      </Helmet>
       <h1 className="text-center text-xl font-bold bg-slate-300 py-3">
         This is Employee Directory-EmployeeList
       </h1>
