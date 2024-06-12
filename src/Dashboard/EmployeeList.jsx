@@ -70,7 +70,7 @@ const handlePay = async ()=>{
         This is Employee Directory-EmployeeList
       </h1>
       <div>
-        <div className="border rounded-md w-10/12 m-5">
+        <div className="border rounded-md w-full p-5">
           <table className="table">
             <thead>
               <tr className="text-black">

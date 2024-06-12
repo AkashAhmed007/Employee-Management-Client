@@ -51,7 +51,7 @@ const WorkSheet = () => {
       </h1>
       <hr />
       <div className="flex justify-between gap-2">
-        <div className="border rounded-md w-full m-5">
+        <div className="border rounded-md w-full m-5 p-5">
           <form onSubmit={handleSubmit} className="space-y-5 m-2">
             <div className="space-y-1 text-sm">
               <label htmlFor="task" className="block">

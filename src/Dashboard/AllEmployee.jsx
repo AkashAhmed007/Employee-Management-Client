@@ -43,7 +43,7 @@ const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
       <h1 className="text-center text-xl font-bold bg-slate-300 py-3">
         This is All-EmployeeList
       </h1>
-      <div className="border rounded-md w-10/12 m-5">
+      <div className="border w-full rounded-md p-5">
         <table className="table">
           <thead>
             <tr className="text-black">

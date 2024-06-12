@@ -44,7 +44,7 @@ const Progress = () => {
 
     {/* display Data */}
       <div className="flex gp-3 justify-between items- m-2">
-        <div className="border rounded-md w-1/2 mt-5">
+        <div className="border rounded-md w-full m-3 p-5">
           <table className="table">
             {/* head */}
             <thead className="text-black">

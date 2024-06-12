@@ -16,7 +16,7 @@ return (
         This is Employee Payment-history
       </h1>
       <div>
-        <div className="border rounded-md w-10/12 m-5">
+        <div className="border rounded-md w-full p-5">
           <table className="table">
             {/* head */}
             <thead className="text-black">

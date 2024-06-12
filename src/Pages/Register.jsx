@@ -34,6 +34,7 @@ const Register = () => {
       }
       navigate(location?.state || "/", { replace: true });
       const user2 = {
+        uid : user.uid,
         username: res._tokenResponse.displayName,
         email: res._tokenResponse.email,
         image: res._tokenResponse.photoUrl,
@@ -44,11 +45,12 @@ const Register = () => {
     });
   };
 
+ 
   useEffect(() => {
     if (user) navigate(location?.state);
   }, []);
 
-  const onSubmit = (data) => {
+const onSubmit = (data) => {
     const {
       username,
       email,
@@ -100,6 +102,7 @@ const Register = () => {
           .then((res) => {
             if (res.data.success) {
               const user = {
+                userId: user.uid,
                 username,
                 email,
                 password,
@@ -195,7 +198,7 @@ const Register = () => {
               {...register("role")}
               className="select select-bordered w-full max-w-md mt-2 mb-2"
             >
-              <option disabled selected>
+              <option selected>
                 Select Role
               </option>
               <option>HR</option>
