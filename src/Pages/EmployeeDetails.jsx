@@ -12,7 +12,30 @@ const employeeDetails = useLoaderData();
  const data = [{
   uv: 2024,
   pv: 2030
- }]
+ },
+ {
+  uv: 2024,
+  pv: 2030
+ },
+ {
+  uv: 2024,
+  pv: 2030
+ },
+ {
+  uv: 2024,
+  pv: 2030
+ },
+ {
+  uv: 2024,
+  pv: 2030
+ },
+ {
+  uv: 2024,
+  pv: 2030
+ },
+
+
+]
 
 return (
     <>

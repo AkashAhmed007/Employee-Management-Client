@@ -5,7 +5,7 @@ const PaymentHistory = () => {
 const {user} = useContext(AuthContext)
 const [paidData,setPaidData] = useState([])
 
-axios.get(`http://localhost:8000/payment/${user?.email}`)
+axios.get(`https://employee-management-server-five.vercel.app/payment/${user?.email}`)
 .then(res=>{
   setPaidData(res.data)
 })

@@ -29,8 +29,13 @@ const { user, loading, logOut } = useContext(AuthContext);
   return (
     <>
       <div className="flex">
-        <div className="w-60 min-h-screen bg-black">
-          <ul className="menu flex flex-col gap-5 text-white text-base font-bold p-5">
+        <div className="lg:w-60 md:w-30 w-30 min-h-screen bg-black">
+          <ul className="menu flex lg:flex-col lg:gap-5 gap-3 text-white text-base font-bold lg:p-5">
+            <div>
+              <li>
+                <NavLink to='/dashboard'>Dashboard</NavLink>
+              </li>
+            </div>
             <div className="flex gap-1 items-center justify-start">
               <RiHome7Fill />
               <li>
@@ -87,7 +92,7 @@ const { user, loading, logOut } = useContext(AuthContext);
         </div>
         <div className="flex-1">
           <div className="flex justify-end gap-2 p-3">
-            <h1 className="text-xl font-bold">Hi, {user.displayName || user.email} Welcome Back!</h1>
+            <h1 className="lg:text-xl text-base font-bold">Hi, {user.displayName || user.email} Welcome Back!</h1>
             <div>
               <img
                 className="w-10 rounded-full"

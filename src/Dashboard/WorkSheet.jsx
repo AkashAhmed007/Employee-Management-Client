@@ -12,7 +12,7 @@ const WorkSheet = () => {
   const [startDate, setStartDate] = useState(new Date());
   const date = startDate.toISOString().substr(0, 10);
 
-  axios.get(`http://localhost:8000/worksheet/${user?.email}`)
+  axios.get(`https://employee-management-server-five.vercel.app/worksheet/${user?.email}`)
   .then(res=>{
     setWorkSheetData(res.data)
   })
@@ -29,7 +29,7 @@ const WorkSheet = () => {
       email:user?.email
     };
  try {
-      const res = await axios.post("http://localhost:8000/worksheet", UserWorkdata)
+      const res = await axios.post("https://employee-management-server-five.vercel.app/worksheet", UserWorkdata)
       if (res.data) {
         toast.success("Your record has saved successfully!", {
           position: "top-right",

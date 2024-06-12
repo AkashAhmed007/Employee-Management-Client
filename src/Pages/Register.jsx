@@ -34,14 +34,13 @@ const Register = () => {
       }
       navigate(location?.state || "/", { replace: true });
       const user2 = {
-        uid : user.uid,
         username: res._tokenResponse.displayName,
         email: res._tokenResponse.email,
         image: res._tokenResponse.photoUrl,
         role: "Employee",
         isVerified: false,
       };
-      axios.post("http://localhost:8000/socialloginuser", user2);
+      axios.post("https://employee-management-server-five.vercel.app/socialloginuser", user2);
     });
   };
 
@@ -102,10 +101,8 @@ const onSubmit = (data) => {
           .then((res) => {
             if (res.data.success) {
               const user = {
-                userId: user.uid,
                 username,
                 email,
-                password,
                 image: res.data.data.display_url,
                 account: parseFloat(account),
                 role,
@@ -113,7 +110,8 @@ const onSubmit = (data) => {
                 designation,
                 isVerified: false,
               };
-              axios.post("http://localhost:8000/user", user);
+              axios.post("https://employee-management-server-five.vercel.app/user", user)
+
             }
           });
       })

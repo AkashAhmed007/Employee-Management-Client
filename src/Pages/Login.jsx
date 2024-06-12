@@ -34,7 +34,7 @@ const Login = () => {
         role: "Employee",
         isVerified: false,
       };
-      axios.post("http://localhost:8000/socialloginuser", user2);
+      axios.post("https://employee-management-server-five.vercel.app/socialloginuser", user2);
     });
   };
 
@@ -65,7 +65,7 @@ const onSubmit = (data) => {
         navigate(location?.state || "/",{replace:true});
       })
       .catch((error) => {
-        setLoginError(toast.error(`You credentials is not corrent ${error.message}`));
+        setLoginError(toast.error(`You credentials is not correct ${error.message}`));
         setLoginError('')
       });
       reset()

@@ -12,14 +12,14 @@ const EmployeeList = () => {
   const [year, setYear] = useState("");
   const [seleectedEmployee,setSelectedEmployee] = useState(null)
   useEffect(() => {
-    axios.get("http://localhost:8000/employees").then((res) => {
+    axios.get("https://employee-management-server-five.vercel.app/employees").then((res) => {
       setEmployees(res.data);
     });
   }, []);
   const handleToggle = async (id, currentStatus) => {
     const newStatus = !currentStatus;
     await axios
-      .put(`http://localhost:8000/employees/${id}/verify`, {
+      .put(`https://employee-management-server-five.vercel.app/employees/${id}/verify`, {
         isVerified: newStatus,
       })
       .then((res) => {
@@ -52,7 +52,7 @@ const handlePay = async ()=>{
       email : seleectedEmployee.email
     }
 
-  const res = await axios.post('http://localhost:8000/pay',{data})
+  const res = await axios.post('https://employee-management-server-five.vercel.app/pay',{data})
   if(res.data.success){
     toast.success("Your payment has successful!", {
       position: "top-right",

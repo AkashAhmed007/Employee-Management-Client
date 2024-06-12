@@ -5,13 +5,13 @@ const AllEmployee = () => {
 const [employees, setEmployees] = useState([]);
 const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
  useEffect(() => {
-    axios.get("http://localhost:8000/employees").then((res) => {
+    axios.get("https://employee-management-server-five.vercel.app/employees").then((res) => {
       setEmployees(res.data);
     });
   }, []);
 
   const handleMakeHr = (id) => {
-    axios.put(`http://localhost:8000/make-hr/${id}`).then(() => {
+    axios.put(`https://employee-management-server-five.vercel.app/make-hr/${id}`).then(() => {
       setEmployees(
         employees.map((emp) => (emp._id === id ? { ...emp, role: "HR" } : emp))
       );
@@ -20,7 +20,7 @@ const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
 
   const handleFireEmployee = (id) => {
     
-    axios.put(`http://localhost:8000/fire/${id}`).then(() => {
+    axios.put(`https://employee-management-server-five.vercel.app/fire/${id}`).then(() => {
       setEmployees(
         employees.map((emp) =>
           emp._id === id ? { ...emp, isFired: true } : emp
@@ -50,7 +50,7 @@ const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
               <th>No.</th>
               <th>Name</th>
               <th>Designation</th>
-              <th>Make HR</th>
+              <th>Position</th>
               <th>Fire</th>
             </tr>
           </thead>

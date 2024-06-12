@@ -5,10 +5,10 @@ const Progress = () => {
   const [employeeData, setEmployeeData] = useState([]);
   const [worksheetData, setWorkSheetData] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8000/employees").then((res) => {
+    axios.get("https://employee-management-server-five.vercel.app/employees").then((res) => {
       setEmployeeData(res.data);
     });
-    axios.get("http://localhost:8000/worksheet").then((res) => {
+    axios.get("https://employee-management-server-five.vercel.app/worksheet").then((res) => {
       setWorkSheetData(res.data);
     });
   }, []);

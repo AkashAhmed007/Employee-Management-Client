@@ -69,21 +69,21 @@ const router = createBrowserRouter([
       },
       {
         path: "worksheet",
-        element: <PrivateRoute allowedRoles={["Employee", "HR", "Admin"]}><WorkSheet></WorkSheet></PrivateRoute>,
+        element: <PrivateRoute><WorkSheet></WorkSheet></PrivateRoute>,
       },
       {
         path: "worksheet/:email",
         element: <WorkSheet></WorkSheet>,
-        loader: ({params}) => fetch(`http://localhost:8000/worksheet/${params.email}`),
+        loader: ({params}) => fetch(`https://employee-management-server-five.vercel.app/worksheet/${params.email}`),
       },
       {
         path: "payment-history",
-        element: <PrivateRoute allowedRoles={["Employee", "HR", "Admin"]}><PaymentHistory></PaymentHistory></PrivateRoute>
+        element: <PrivateRoute><PaymentHistory></PaymentHistory></PrivateRoute>
       },
       {
         path: "payment/:email",
         element: <PaymentHistory></PaymentHistory>,
-        loader: ({params})=> fetch(`http://localhost:8000/payment/${params.email}`)
+        loader: ({params})=> fetch(`https://employee-management-server-five.vercel.app/payment/${params.email}`)
       },
       {
         path: "employee-list",
@@ -103,7 +103,7 @@ const router = createBrowserRouter([
     path: "/employeelist/:email",
     element: <EmployeeDetails></EmployeeDetails>,
     loader: ({ params }) =>
-      fetch(`http://localhost:8000/employeelist/${params.email}`),
+      fetch(`https://employee-management-server-five.vercel.app/employeelist/${params.email}`),
   }
 
 ]);
