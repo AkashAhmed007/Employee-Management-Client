@@ -47,33 +47,47 @@ const router = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: 
+    element: (
       <PrivateRoute>
         <Dashboard></Dashboard>
-      </PrivateRoute>,
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,
-        element:<DashboardHome></DashboardHome>
-
+        element: <DashboardHome></DashboardHome>,
       },
       {
         path: "worksheet",
-        element: <PrivateRoute><WorkSheet></WorkSheet></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <WorkSheet></WorkSheet>
+          </PrivateRoute>
+        ),
       },
       {
         path: "worksheet/:email",
         element: <WorkSheet></WorkSheet>,
-        loader: ({params}) => fetch(`https://employee-management-server-five.vercel.app/worksheet/${params.email}`),
+        loader: ({ params }) =>
+          fetch(
+            `https://employee-management-server-five.vercel.app/worksheet/${params.email}`
+          ),
       },
       {
         path: "payment-history",
-        element: <PrivateRoute><PaymentHistory></PaymentHistory></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <PaymentHistory></PaymentHistory>
+          </PrivateRoute>
+        ),
       },
       {
         path: "payment/:email",
         element: <PaymentHistory></PaymentHistory>,
-        loader: ({params})=> fetch(`https://employee-management-server-five.vercel.app/payment/${params.email}`)
+        loader: ({ params }) =>
+          fetch(
+            `https://employee-management-server-five.vercel.app/payment/${params.email}`
+          ),
       },
       {
         path: "employee-list",
@@ -86,16 +100,17 @@ const router = createBrowserRouter([
       {
         path: "all-employee",
         element: <AllEmployee></AllEmployee>,
-      }
-    ]
+      },
+    ],
   },
   {
     path: "/employeelist/:email",
     element: <EmployeeDetails></EmployeeDetails>,
     loader: ({ params }) =>
-      fetch(`https://employee-management-server-five.vercel.app/employeelist/${params.email}`),
-  }
-
+      fetch(
+        `https://employee-management-server-five.vercel.app/employeelist/${params.email}`
+      ),
+  },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
