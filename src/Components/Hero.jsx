@@ -11,7 +11,7 @@ const Hero = () => {
   return (
     <div style={myStyle} className='relative'>
         <div className="absolute inset-0 bg-black opacity-50">
-          <div className="lg:w-3/4 md:w-10/12 lg:mx-auto lg:my-36 md:my-24 my-20 text-center lg:m-12 md:m-20 m-12 lg:p-20 md:p-10 p-5 border-2">
+          <div className="lg:w-3/4 md:w-10/12 lg:mx-auto lg:my-20 md:my-24 my-20 text-center lg:m-12 md:m-20 m-12 lg:p-25 md:p-10 p-5 border-2 rounded-md">
             <h1 className="lg:text-5xl md:text-3xl text-xl text-white font-extrabold">
               Join Us in Making a Difference
             </h1>

@@ -1,299 +1,174 @@
-import { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AuthContext } from "../Firebase/FirebaseProvider";
-import { useForm } from "react-hook-form";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
+import { Link,useNavigate } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
 import Swal from "sweetalert2";
-import { Helmet } from "react-helmet";
-const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-const imageHostingAPI = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
-
+import useAuth from "../hooks/useAuth";
+import { imageUpload } from "../api/utilitis";
 const Register = () => {
-  const { user, createUser, googleLogin } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [showPassword, setShowPassword] = useState(false);
-  const [registerError, setRegisterError] = useState("");
   const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
+    createUser,
+    signInWithGoogle,
+    updateUserProfile,
+    loading,
+  } = useAuth();
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const image = form.image.files[0];
+    try {
+      // upload image and get imageURL from imagebb
+      const image_url = await imageUpload(image)
 
-  const handleSocialLogin = (socialProvider) => {
-    socialProvider().then((res) => {
-      if (res.user) {
-        Swal.fire({
-          title: "You have logged in successfully!",
-          text: "Do you want to continue",
-          icon: "success",
-          confirmButtonText: "Ok",
-        });
-      }
-      navigate(location?.state || "/", { replace: true });
-      const user2 = {
-        username: res._tokenResponse.displayName,
-        email: res._tokenResponse.email,
-        image: res._tokenResponse.photoUrl,
-        role: "Employee",
-        isVerified: false,
-      };
-      axios.post("https://employee-management-server-five.vercel.app/socialloginuser", user2);
-    });
-  };
+      //userCreate
+      await createUser(email, password);
 
- 
-  useEffect(() => {
-    if (user) navigate(location?.state);
-  }, []);
-
-const onSubmit = (data) => {
-    const {
-      username,
-      email,
-      password,
-      image,
-      account,
-      role,
-      salary,
-      designation,
-    } = data;
-    const imageFile = { image: data.image[0] };
-    if (password < 6) {
-      setRegisterError("Password should be at least 6 characters or longer");
-      return;
-    } else if (!/[A-Z]/.test(password)) {
-      setRegisterError(
-        "Your Password Should have at least one Uppercase character"
-      );
-      return;
-    } else if (!/[a-z]/.test(password)) {
-      setRegisterError(
-        "Your Password Should have at least one Lowercase character"
-      );
-      return;
-    } else if (!/.*[^a-zA-Z0-9].*/.test(password)) {
-      setRegisterError(
-        "Your Password Should have at least one special character"
-      );
-      return;
-    }
-    setRegisterError("");
-
-    createUser(email, password, image)
-      .then(() => {
-        Swal.fire({
-          title: "You have register successfully!",
-          text: "Do you want to continue",
-          icon: "success",
-          confirmButtonText: "Ok",
-        });
-        navigate(location?.state || "/", { replace: true });
-
-        axios
-          .post(imageHostingAPI, imageFile, {
-            headers: {
-              "content-type": "multipart/form-data",
-            },
-          })
-          .then((res) => {
-            if (res.data.success) {
-              const user = {
-                username,
-                email,
-                image: res.data.data.display_url,
-                account: parseFloat(account),
-                role,
-                salary: parseFloat(salary),
-                designation,
-                isVerified: false,
-              };
-              axios.post("https://employee-management-server-five.vercel.app/user", user)
-
-            }
-          });
-      })
-      .catch((error) => {
-        setRegisterError(
-          toast.error(`You credentials is not correct ${error.message}`)
-        );
-        setRegisterError("");
+      //updateUserProfile
+      await updateUserProfile(name, image_url);
+      navigate("/");
+      Swal.fire({
+        title: "You have logged in successfully!",
+        text: "Do you want to continue",
+        icon: "success",
+        confirmButtonText: "Ok",
       });
-    reset();
+    } catch (error) {
+      console.error(error.message);
+    }
   };
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithGoogle();
+      navigate('/');
+      Swal.fire({
+        title: "You have logged in successfully!",
+        text: "Do you want to continue",
+        icon: "success",
+        confirmButtonText: "Ok",
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
-    <div className="min-h-screen my-10">
-      <ToastContainer></ToastContainer>
-      <Helmet>
-        <title>People-HR || Register</title>
-      </Helmet>
-      <div className="w-full mx-auto max-w-md p-8 space-y-3 border rounded-xl dark:bg-gray-50 dark:text-gray-800">
-        <h1 className="text-3xl font-bold text-center">Register Now!</h1>
-        <hr />
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          {registerError && <p className="text-red-500">{registerError}</p>}
-          <div className="space-y-1 text-sm">
-            <label htmlFor="username" className="block dark:text-gray-600">
-              Username
-            </label>
-            <input
-              type="text"
-              name="username"
-              id="username"
-              placeholder="Username"
-              className="w-full px-4 py-3 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600"
-              {...register("username", { required: true })}
-            />
-            {errors.username && (
-              <span className="text-red-500">This field is required</span>
-            )}
-            <label htmlFor="account" className="block dark:text-gray-600">
-              Bank Account No
-            </label>
-            <input
-              type="text"
-              name="account"
-              id="account"
-              placeholder="Account Number"
-              className="w-full px-4 py-3 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600"
-              {...register("account", { required: true })}
-            />
-            {errors.username && (
-              <span className="text-red-500">This field is required</span>
-            )}
-            <label htmlFor="salary" className="block dark:text-gray-600">
-              Monthly Salary
-            </label>
-            <input
-              type="text"
-              name="salary"
-              id="salary"
-              placeholder="Monthly Salary"
-              className="w-full px-4 py-3 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600"
-              {...register("salary", { required: true })}
-            />
-            {errors.username && (
-              <span className="text-red-500">This field is required</span>
-            )}
-            <label htmlFor="designation" className="block dark:text-gray-600">
-              Designation
-            </label>
-            <input
-              type="text"
-              name="designation"
-              id="designation"
-              placeholder="Designation"
-              className="w-full px-4 py-3 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600"
-              {...register("designation", { required: true })}
-            />
-            {errors.username && (
-              <span className="text-red-500">This field is required</span>
-            )}
-
-            <label htmlFor="role" className="block">
-              Role
-            </label>
-            <select
-              {...register("role")}
-              className="select select-bordered w-full max-w-md mt-2 mb-2"
-            >
-              <option selected>
-                Select Role
-              </option>
-              <option>HR</option>
-              <option>Employee</option>
-            </select>
-            {errors.username && (
-              <span className="text-red-500">This field is required</span>
-            )}
-            <label htmlFor="email" className="block dark:text-gray-600">
-              Email
-            </label>
-            <input
-              {...register("email", { required: true })}
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Email"
-              className="w-full px-4 py-3  border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600"
-            />
-            {errors.email && (
-              <span className="text-red-500">This field is required</span>
-            )}
-            <label htmlFor="image" className="block dark:text-gray-600">
-              PhotoURL
-            </label>
-            <input
-              {...register("image", { required: true })}
-              type="file"
-              className="file-input file-input-bordered file-input-md w-full max-w-md"
-            />
-
-            <div className="space-y-1 text-sm">
-              <label htmlFor="password" className="block dark:text-gray-600">
-                Password
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="flex flex-col max-w-md p-6 m-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
+        <div className="mb-8 text-center">
+          <h1 className="my-3 text-4xl font-bold">Sign Up</h1>
+          <p className="text-sm text-gray-400">Welcome to StayVista</p>
+        </div>
+        <form
+          onSubmit={handleSubmit}
+          noValidate=""
+          action=""
+          className="space-y-6 ng-untouched ng-pristine ng-valid"
+        >
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="email" className="block mb-2 text-sm">
+                Name
               </label>
-              <div className="flex justify-center items-center">
-                <input
-                  {...register("password", { required: true })}
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  id="password"
-                  autoComplete="off"
-                  placeholder="Password"
-                  className="w-full px-6 py-3 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600"
-                />
-                <span
-                  className=""
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
-                </span>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Enter Your Name Here"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900"
+                data-temp-mail-org="0"
+              />
+            </div>
+            <div>
+              <label htmlFor="image" className="block mb-2 text-sm">
+                Select Image:
+              </label>
+              <input
+                required
+                type="file"
+                id="image"
+                name="image"
+                accept="image/*"
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="block mb-2 text-sm">
+                Email address
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                required
+                placeholder="Enter Your Email Here"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900"
+                data-temp-mail-org="0"
+                autoComplete="email"
+              />
+            </div>
+            <div>
+              <div className="flex justify-between">
+                <label htmlFor="password" className="text-sm mb-2">
+                  Password
+                </label>
               </div>
-              {errors.password && (
-                <span className="text-red-500">This field is required</span>
-              )}
+              <input
+                type="password"
+                name="password"
+                autoComplete="new-password"
+                id="password"
+                required
+                placeholder="*******"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900"
+              />
             </div>
           </div>
 
-          <button className="block w-full p-3 text-center rounded-sm dark:text-gray-50 dark:bg-violet-600 bg-[#27b6de] text-white">
-            Create Account
-          </button>
+          <div>
+            <button
+              disabled={loading}
+              type="submit"
+              className="bg-rose-500 w-full rounded-md py-3 text-white"
+            >
+              {loading ? (
+                <div className="min-h-screen my-20 text-center">
+                <span className="loading loading-spinner loading-xs"></span>
+                <span className="loading loading-spinner loading-sm"></span>
+                <span className="loading loading-spinner loading-md"></span>
+                <span className="loading loading-spinner loading-lg"></span>
+                </div>
+              ) : (
+                "Sign Up"
+              )}
+            </button>
+          </div>
         </form>
         <div className="flex items-center pt-4 space-x-1">
-          <div className="flex-1 h-px sm:w-16 dark:bg-gray-300"></div>
-          <p className="px-3 text-sm dark:text-gray-600">
-            Login with social accounts
+          <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
+          <p className="px-3 text-sm dark:text-gray-400">
+            Signup with social accounts
           </p>
-          <div className="flex-1 h-px sm:w-16 dark:bg-gray-300"></div>
+          <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
         </div>
-        <div className="flex justify-center space-x-4">
-          <button
-            onClick={() => handleSocialLogin(googleLogin)}
-            aria-label="Log in with Google"
-            className="p-3 rounded-sm"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 32 32"
-              className="w-5 h-5 fill-current"
-            >
-              <path d="M16.318 13.714v5.484h9.078c-0.37 2.354-2.745 6.901-9.078 6.901-5.458 0-9.917-4.521-9.917-10.099s4.458-10.099 9.917-10.099c3.109 0 5.193 1.318 6.38 2.464l4.339-4.182c-2.786-2.599-6.396-4.182-10.719-4.182-8.844 0-16 7.151-16 16s7.156 16 16 16c9.234 0 15.365-6.49 15.365-15.635 0-1.052-0.115-1.854-0.255-2.651z"></path>
-            </svg>
-          </button>
-        </div>
-        <p className="text-sm text-center dark:text-gray-600">
-          Already Registerd?
+        <button
+          disabled={loading}
+          onClick={handleGoogleSignIn}
+          className="flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer"
+        >
+          <FcGoogle size={32} />
+
+          <p>Continue with Google</p>
+        </button>
+        <p className="px-6 text-sm text-center text-gray-400">
+          Already have an account?{" "}
           <Link
             to="/login"
-            href="#"
-            className="focus:underline hover:underline text-blue-600"
+            className="hover:underline hover:text-rose-500 text-gray-600"
           >
             Login
           </Link>
+          .
         </p>
       </div>
     </div>

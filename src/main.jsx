@@ -48,9 +48,10 @@ const router = createBrowserRouter([
   {
     path: "dashboard",
     element: (
-      <PrivateRoute>
-        <Dashboard></Dashboard>
-      </PrivateRoute>
+        <PrivateRoute>
+          <Dashboard></Dashboard>
+        </PrivateRoute>
+      
     ),
     children: [
       {
@@ -60,9 +61,11 @@ const router = createBrowserRouter([
       {
         path: "worksheet",
         element: (
-          <PrivateRoute>
-            <WorkSheet></WorkSheet>
-          </PrivateRoute>
+          
+            <PrivateRoute>
+              <WorkSheet></WorkSheet>
+            </PrivateRoute>
+         
         ),
       },
       {
@@ -76,9 +79,11 @@ const router = createBrowserRouter([
       {
         path: "payment-history",
         element: (
-          <PrivateRoute>
-            <PaymentHistory></PaymentHistory>
-          </PrivateRoute>
+          
+            <PrivateRoute>
+              <PaymentHistory></PaymentHistory>
+            </PrivateRoute>
+          
         ),
       },
       {
